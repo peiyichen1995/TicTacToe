@@ -12,7 +12,11 @@ public:
   Position() : _x(0), _y(0) {}
 
   // fills _x with x, fills _y with y
-  Position(int a, int b) {_x = a; _y = b;}
+  Position(int a, int b)
+  {
+    _x = a;
+    _y = b;
+  }
 
   int & x() { return _x; }
   int & y() { return _y; }

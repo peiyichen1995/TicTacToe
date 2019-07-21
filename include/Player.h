@@ -11,7 +11,10 @@ class Player
 public:
   // custom constructor
   // fills _pattrn with pattern, fills name with _name, fills _win_msg with win_msg
-  Player(Pattern pa, std::string name, std::string win_msg) : _pattern(pa), _name(name), _win_msg(win_msg) {}
+  Player(Pattern pa, std::string name, std::string win_msg)
+    : _pattern(pa), _name(name), _win_msg(win_msg)
+  {
+  }
 
   const Pattern pattern() const { return _pattern; }
   const std::string name() const { return _name; }

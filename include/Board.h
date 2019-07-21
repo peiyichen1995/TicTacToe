@@ -12,29 +12,26 @@ public:
   // default constructor
   // fills _M with 3, fills _N with 3, allocate memory for _marks, calls initialize() to initialize
   // marks.
-  Board() : _M(3), _N(3), _marks(_M * _N) {initialize();}
+  Board() : _M(3), _N(3), _marks(_M * _N) { initialize(); }
 
   // custom constructor
   // fills _M with m, fills _N with n, allocate memory for _marks, calls initialize() to initialize
-  Board(unsigned int m, unsigned int n) : _M(m), _N(n), _marks(_M * _N) {initialize(); }
+  Board(unsigned int m, unsigned int n) : _M(m), _N(n), _marks(_M * _N) { initialize(); }
 
   // destructor for Board
-  ~Board() {
-         for (auto p : _marks)
-   {
-     delete p;
-   }
-
+  ~Board()
+  {
+    for (auto p : _marks)
+      delete p;
   }
 
   // method initialize() fills _marks with pointers to Mark by allocating memory for each
   // Mark.
-  void initialize() {
-      for (int i = 0; i < _M; i++){
-          for (int j = 0; j < _N; j++){
-              _marks[i*_N+j] = new Mark();
-          }
-      }
+  void initialize()
+  {
+    for (unsigned int i = 0; i < _M; i++)
+      for (unsigned int j = 0; j < _N; j++)
+        _marks[i * _N + j] = new Mark();
   }
 
   const unsigned int M() { return _M; }
@@ -44,19 +41,13 @@ public:
   const unsigned int N() const { return _N; }
 
   // access the Mark at row i column j
-  Mark & operator()(unsigned int i, unsigned int j) {
-      return * _marks[i*_N+j];
-  }
+  Mark & operator()(unsigned int i, unsigned int j) { return *_marks[i * _N + j]; }
 
   // const access the Mark at row i column j
-  const Mark & operator()(unsigned int i, unsigned int j) const {
-      return * _marks[i*_N+j];
-  }
+  const Mark & operator()(unsigned int i, unsigned int j) const { return *_marks[i * _N + j]; }
 
   // method set() sets the Pattern of the Mark at row i column j to p.
-  void set(unsigned int i, unsigned int j, Pattern pa) {
-      _marks[i*_N+j]->set(pa);
-  }
+  void set(unsigned int i, unsigned int j, Pattern pa) { _marks[i * _N + j]->set(pa); }
 
   friend std::ostream & operator<<(std::ostream & os, const Board & p);
 

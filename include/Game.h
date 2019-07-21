@@ -20,7 +20,6 @@ public:
     // allocate memory for _board by calling getRow() and getCol()
     _board = new Board(getNumber("Number of rows: "), getNumber("Number of columns: "));
 
-
     std::cout << std::endl;
     std::cout << "###############################################\n";
     std::cout << "##                  Player 1                 ##\n";
@@ -48,10 +47,11 @@ public:
   }
 
   // desctructor frees allocated memory
-  ~Game() {
-      delete _board;
-      delete _p1;
-      delete _p2;
+  ~Game()
+  {
+    delete _board;
+    delete _p1;
+    delete _p2;
   }
 
   std::string getMatchedRegex(std::regex to_match)
@@ -66,26 +66,26 @@ public:
     return input;
   }
 
-//   unsigned int getRow()
-//   {
-//     std::cout << "Number of rows: ";
-//     std::regex e("^[[:blank:]]*[0-9]+[[:blank:]]*$");
-//     std::stringstream ss(getMatchedRegex(e));
-//     int M;
-//     ss >> M;
-//     return M;
-//   }
+  //   unsigned int getRow()
+  //   {
+  //     std::cout << "Number of rows: ";
+  //     std::regex e("^[[:blank:]]*[0-9]+[[:blank:]]*$");
+  //     std::stringstream ss(getMatchedRegex(e));
+  //     int M;
+  //     ss >> M;
+  //     return M;
+  //   }
 
-//   unsigned int getCol()
-//   {
-//     std::cout << "Number of columns: ";
-//     //
-//     std::regex e("^[[:blank:]]*[0-9]+[[:blank:]]*$");
-//     std::stringstream ss(getMatchedRegex(e));
-//     int N;
-//     ss >> N;
-//     return N;
-//   }
+  //   unsigned int getCol()
+  //   {
+  //     std::cout << "Number of columns: ";
+  //     //
+  //     std::regex e("^[[:blank:]]*[0-9]+[[:blank:]]*$");
+  //     std::stringstream ss(getMatchedRegex(e));
+  //     int N;
+  //     ss >> N;
+  //     return N;
+  //   }
 
   unsigned int getNumber(std::string message)
   {
@@ -150,10 +150,13 @@ public:
       play();
       postPlay();
     }
-    if (_win == 1){
-        _turn->win();
-    } else {
-        std::cout << "No winner." << std::endl;
+    if (_win == 1)
+    {
+      _turn->win();
+    }
+    else
+    {
+      std::cout << "No winner." << std::endl;
     }
   }
 
@@ -171,13 +174,15 @@ public:
 
   void prePlay() {}
 
-  bool isvalid(unsigned int i, unsigned int j){
-      if (i >= _board->M() || j >= _board->N()){
-          return false;
-      }
-      if ((*_board)(i, j).pattern() != Pattern::EMPTY)
-              return false;
-      return true;
+  bool isvalid(unsigned int i, unsigned int j)
+  {
+    if (i >= _board->M() || j >= _board->N())
+    {
+      return false;
+    }
+    if ((*_board)(i, j).pattern() != Pattern::EMPTY)
+      return false;
+    return true;
   }
 
   void play()
@@ -206,135 +211,141 @@ public:
   // return true if we should terminate, return false if we should not.
   // If there is a winner, print the winner's win message.
 
-  bool hlinewin(unsigned int i, unsigned int j, Pattern pa){
-      int count = 1;
-      for (int a = j+1; a < _board->N(); a++){
-          if ((*_board)(i, a).pattern() != pa){
-              break;
-          }
-          count++;
-      }
-      for (int b = j-1; b >= 0; b--){
-          if ((*_board)(i, b).pattern() != pa){
-              break;
-          }
-          count++;
-      }
-      if (count >= _T){
-              return true;
-          } else {
-              return false;
-          }
+  bool hlinewin(unsigned int i, unsigned int j, Pattern pa)
+  {
+    unsigned int count = 1;
+    for (unsigned int a = j + 1; a < _board->N(); a++)
+    {
+      if ((*_board)(i, a).pattern() != pa)
+        break;
+      count++;
+    }
+    for (int b = j - 1; b >= 0; b--)
+    {
+      if ((*_board)(i, b).pattern() != pa)
+        break;
+      count++;
+    }
+
+    if (count >= _T)
+      return true;
+    else
+      return false;
   }
 
-
-  bool vlinewin(unsigned int i, unsigned int j, Pattern pa){
-      int count = 1;
-      for (int a = i+1; a < _board->M(); a++){
-          if ((*_board)(a, j).pattern() != pa){
-              break;
-          }
-          count++;
-      }
-      for (int b = i-1; b >= 0; b--){
-          if ((*_board)(b, j).pattern() != pa){
-              break;
-          }
-          count++;
-      }
-      if (count >= _T){
-          return true;
-          } else {
-              return false;
-          }
+  bool vlinewin(unsigned int i, unsigned int j, Pattern pa)
+  {
+    unsigned int count = 1;
+    for (unsigned int a = i + 1; a < _board->M(); a++)
+    {
+      if ((*_board)(a, j).pattern() != pa)
+        break;
+      count++;
+    }
+    for (int b = i - 1; b >= 0; b--)
+    {
+      if ((*_board)(b, j).pattern() != pa)
+        break;
+      count++;
+    }
+    if (count >= _T)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 
-  bool dialinewin(unsigned int i, unsigned int j, Pattern pa){
-      int count = 1;
-      int a = i-1;
-      int b = j-1;
-      while (a >= 0 && b >= 0){
-          if ((*_board)(a, b).pattern() != pa){
-              break;
-          }
-          count++;
-          a--;
-          b--;
-      }
-      a = i+1;
-      b = j+1;
-      while (a < _board->M() && b < _board->N()){
-         if ((*_board)(a, b).pattern() != pa){
-              break;
-          }
-          count++;
-          a++;
-          b++;
-      }
-      if (count >= _T){
-          return true;
-      }
+  bool dialinewin(unsigned int i, unsigned int j, Pattern pa)
+  {
+    unsigned int count = 1;
+    int a = i - 1;
+    int b = j - 1;
+    while (a >= 0 && b >= 0)
+    {
+      if ((*_board)(a, b).pattern() != pa)
+        break;
+      count++;
+      a--;
+      b--;
+    }
+    a = i + 1;
+    b = j + 1;
+    while (a < int(_board->M()) && b < int(_board->N()))
+    {
+      if ((*_board)(a, b).pattern() != pa)
+        break;
+      count++;
+      a++;
+      b++;
+    }
+    if (count >= _T)
+      return true;
 
-      // Check another diagonal
-      count = 1;
-      a = i-1;
-      b = j+1;
-      while (a >= 0 && b < _board->N()){
-          if ((*_board)(a, b).pattern() != pa){
-              break;
-          }
-          count++;
-          a--;
-          b++;
-      }
-      a = i+1;
-      b = j-1;
-      while (a < _board->M() && b >= 0){
-         if ((*_board)(a, b).pattern() != pa){
-              break;
-          }
-          count++;
-          a++;
-          b--;
-      }
-      if (count >= _T){
-          return true;
-      } else {
-          return false;
-      }
+    // Check another diagonal
+    count = 1;
+    a = i - 1;
+    b = j + 1;
+    while (a >= 0 && b < int(_board->N()))
+    {
+      if ((*_board)(a, b).pattern() != pa)
+        break;
+      count++;
+      a--;
+      b++;
+    }
+    a = i + 1;
+    b = j - 1;
+    while (a < int(_board->M()) && b >= 0)
+    {
+      if ((*_board)(a, b).pattern() != pa)
+        break;
+      count++;
+      a++;
+      b--;
+    }
+    if (count >= _T)
+      return true;
+    else
+      return false;
   }
 
-  bool isfull(){
-      unsigned int is = 1;
-      for (unsigned int i = 0; i < _board->M(); i++){
-          for (unsigned int j = 0; j < _board->N(); j++){
-              if ((*_board)(i, j).pattern() == Pattern::EMPTY){
-                  is = 0;
-                  break;
-              }
-          }
-      }
-      if (is == 0){
-          return false;
-      } else {
-          return true;
-      }
+  bool isfull()
+  {
+    unsigned int is = 1;
+    for (unsigned int i = 0; i < _board->M(); i++)
+      for (unsigned int j = 0; j < _board->N(); j++)
+        if ((*_board)(i, j).pattern() == Pattern::EMPTY)
+        {
+          is = 0;
+          break;
+        }
+
+    if (is == 0)
+      return false;
+    else
+      return true;
   }
 
-  bool terminate() {
-      Pattern pa = _turn->pattern();
-      unsigned int i = _i;
-      unsigned int j = _j;
-      if (hlinewin(i,j,pa) == true || vlinewin(i,j,pa) == true || dialinewin(i,j,pa) == true){
-          _win = 1;
-          return true;
-      } else if (isfull() == true){
-          _win = 0;
-          return true;
-      }
-      else {
-          return false;
-      }
+  bool terminate()
+  {
+    Pattern pa = _turn->pattern();
+    unsigned int i = _i;
+    unsigned int j = _j;
+    if (hlinewin(i, j, pa) == true || vlinewin(i, j, pa) == true || dialinewin(i, j, pa) == true)
+    {
+      _win = 1;
+      return true;
+    }
+    else if (isfull() == true)
+    {
+      _win = 0;
+      return true;
+    }
+    else
+      return false;
   }
 
 protected:

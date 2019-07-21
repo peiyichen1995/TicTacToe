@@ -6,9 +6,9 @@
 // members are O, X, and EMPTY.
 typedef enum pattern
 {
-    O,
-    X,
-    EMPTY
+  O,
+  X,
+  EMPTY
 } Pattern;
 
 inline std::ostream &
